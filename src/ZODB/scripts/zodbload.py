@@ -150,7 +150,7 @@ class MBox:
         if ' ' in filename:
             filename = filename.split()
             if len(filename) < 4:
-                filename += [0, 0, -1][-(4-len(filename)):]
+                filename += [0, 0, -1][-(4 - len(filename)):]
             filename, min, max, start = filename
             min = int(min)
             max = int(max)
@@ -172,7 +172,7 @@ class MBox:
             min = start = 0
 
         if filename.endswith('.bz2'):
-            f = os.popen("bunzip2 <"+filename, 'r')
+            f = os.popen("bunzip2 <" + filename, 'r')
             filename = filename[-4:]
         else:
             f = open(filename)
@@ -213,9 +213,9 @@ def mailfolder(app, mboxname, number):
         from BTrees.Length import Length
         mail.length = Length()
         for i in range(bins):
-            mail.manage_addFolder('b'+str(i))
+            mail.manage_addFolder('b' + str(i))
     bin = hash(str(number)) % bins
-    return getattr(mail, 'b'+str(bin))
+    return getattr(mail, 'b' + str(bin))
 
 
 def VmSize():
@@ -346,11 +346,11 @@ def index(connection, messages, catalog, max):
             # to avoid having to read the old data
             _objects = mail._objects
             if len(_objects) >= max:
-                for d in _objects[:len(_objects)-max+1]:
+                for d in _objects[:len(_objects) - max + 1]:
                     del mail.__dict__[d['id']]
-                mail._objects = _objects[len(_objects)-max+1:]
+                mail._objects = _objects[len(_objects) - max + 1:]
 
-        docid = 'm'+str(message.number)
+        docid = 'm' + str(message.number)
         mail.manage_addDTMLDocument(docid, file=message.body)
 
         # increment counted
@@ -387,7 +387,7 @@ class IndexJob:
     prefix = 'index'
 
     def __init__(self, mbox, number=1, max=0):
-        self.__name__ = "{}{}_{}".format(self.prefix, number, mbox.__name__)
+        self.__name__ = f"{self.prefix}{number}_{mbox.__name__}"
         self.mbox, self.number, self.max = mbox, int(number), int(max)
 
     def create(self):
@@ -418,7 +418,7 @@ def edit(connection, mbox, catalog=1):
 
     # find a message to edit:
     while 1:
-        number = random.randint(1, nmessages-1)
+        number = random.randint(1, nmessages - 1)
         did = 'm' + str(number)
 
         mail = mailfolder(app, mbox.__name__, number)
@@ -436,7 +436,7 @@ def edit(connection, mbox, catalog=1):
         nins = 10
 
     for j in range(ndel):
-        j = random.randint(0, len(text)-1)
+        j = random.randint(0, len(text) - 1)
         word = text[j]
         m = wordre.search(word)
         if m:
@@ -464,7 +464,7 @@ class EditJob:
     catalog = 1
 
     def __init__(self, mbox):
-        self.__name__ = "{}_{}".format(self.prefix, mbox.__name__)
+        self.__name__ = f"{self.prefix}_{mbox.__name__}"
         self.mbox = mbox
 
     def create(self):
@@ -726,7 +726,7 @@ def collect_options(args, jobs, options):
                 options[name] = v
             elif name == 'setup':
                 options['setup'] = 1
-            elif name.capitalize()+'Job' in globals():
+            elif name.capitalize() + 'Job' in globals():
                 job = name
                 kw = {}
                 while args and args[0].find("=") > 0:
@@ -766,7 +766,7 @@ def collect_options(args, jobs, options):
 def find_lib_python():
     for b in os.getcwd(), os.path.split(sys.argv[0])[0]:
         for i in range(6):
-            d = ['..']*i + ['lib', 'python']
+            d = ['..'] * i + ['lib', 'python']
             p = os.path.join(b, *d)
             if os.path.isdir(p):
                 return p
@@ -805,7 +805,7 @@ def main(args=None):
 
     jobs = JobProducer()
     for job, kw, frequency, sleep, repeatp in jobdefs:
-        Job = globals()[job.capitalize()+'Job']
+        Job = globals()[job.capitalize() + 'Job']
         if getattr(Job, 'needs_mbox', 0):
             if "mbox" not in kw:
                 if not options["mbox"]:

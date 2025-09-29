@@ -109,9 +109,9 @@ class TestPList(unittest.TestCase):
 
         # Test __contains__
         for i in u2:
-            self.assertTrue(i in u2, "i in u2")
-        for i in min(u2)-1, max(u2)+1:
-            self.assertTrue(i not in u2, "i not in u2")
+            self.assertIn(i, u2, "i in u2")
+        for i in min(u2) - 1, max(u2) + 1:
+            self.assertNotIn(i, u2, "i not in u2")
 
         # Test __delslice__
 
@@ -128,11 +128,13 @@ class TestPList(unittest.TestCase):
         # Test __add__, __radd__, __mul__ and __rmul__
 
         # self.assertTrue(u1 + [] == [] + u1 == u1, "u1 + [] == [] + u1 == u1")
-        self.assertTrue(u1 + [1] == u2, "u1 + [1] == u2")
+        self.assertEqual(u1 + [1], u2, "u1 + [1] == u2")
         # self.assertTrue([-1] + u1 == [-1, 0], "[-1] + u1 == [-1, 0]")
-        self.assertTrue(u2 == u2*1 == 1*u2, "u2 == u2*1 == 1*u2")
-        self.assertTrue(u2+u2 == u2*2 == 2*u2, "u2+u2 == u2*2 == 2*u2")
-        self.assertTrue(u2+u2+u2 == u2*3 == 3*u2, "u2+u2+u2 == u2*3 == 3*u2")
+        self.assertTrue(u2 == u2 * 1 == 1 * u2, "u2 == u2*1 == 1*u2")
+        self.assertTrue(u2 + u2 == u2 * 2 == 2 * u2, "u2+u2 == u2*2 == 2*u2")
+        self.assertTrue(
+            u2 + u2 + u2 == u2 * 3 == 3 * u2,
+            "u2+u2+u2 == u2*3 == 3*u2")
 
         # Test append
 
@@ -161,7 +163,7 @@ class TestPList(unittest.TestCase):
         eq(u, u1, "u == u1")
 
         # Test count
-        u = u2*3
+        u = u2 * 3
         eq(u.count(0), 3, "u.count(0) == 3")
         eq(u.count(1), 3, "u.count(1) == 3")
         eq(u.count(2), 0, "u.count(2) == 0")
@@ -200,4 +202,4 @@ class TestPList(unittest.TestCase):
     def testBackwardCompat(self):
         # Verify that the sanest of the ZODB 3.2 dotted paths still works.
         from ZODB.PersistentList import PersistentList as oldPath
-        self.assertTrue(oldPath is PersistentList)
+        self.assertIs(oldPath, PersistentList)

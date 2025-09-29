@@ -26,7 +26,7 @@ from ZODB.utils import readable_tid_repr
 
 def _fmt_undo(oid, reason):
     s = reason and (": %s" % reason) or ""
-    return "Undo error {}{}".format(oid_repr(oid), s)
+    return f"Undo error {oid_repr(oid)}{s}"
 
 
 def _recon(class_, state):

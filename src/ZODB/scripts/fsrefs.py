@@ -89,15 +89,15 @@ def report(oid, data, serial, missing):
     else:
         plural = ""
     ts = TimeStamp(serial)
-    print("oid {} {}.{}".format(hex(u64(oid)), from_mod, from_class))
-    print("last updated: {}, tid={}".format(ts, hex(u64(serial))))
+    print(f"oid {hex(u64(oid))} {from_mod}.{from_class}")
+    print(f"last updated: {ts}, tid={hex(u64(serial))}")
     print("refers to invalid object%s:" % plural)
     for oid, info, reason in missing:
         if isinstance(info, tuple):
             description = "%s.%s" % info
         else:
             description = str(info)
-        print("\toid {} {}: {!r}".format(oid_repr(oid), reason, description))
+        print(f"\toid {oid_repr(oid)} {reason}: {description!r}")
     print()
 
 

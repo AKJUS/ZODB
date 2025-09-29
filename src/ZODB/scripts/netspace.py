@@ -47,7 +47,7 @@ def find_paths(root, maxdist):
                 continue
             for k, v in items:
                 oid = getattr(v, '_p_oid', None)
-                objs.append(("{}.{}".format(path, k), v, oid, dist + 1))
+                objs.append((f"{path}.{k}", v, oid, dist + 1))
 
     return paths
 

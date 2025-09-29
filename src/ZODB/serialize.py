@@ -596,7 +596,7 @@ class ObjectReader:
             if isinstance(klass, tuple):
                 # old style reference
                 return "%s.%s" % klass
-        return "{}.{}".format(klass.__module__, klass.__name__)
+        return f"{klass.__module__}.{klass.__name__}"
 
     def getGhost(self, pickle):
         unpickler = self._get_unpickler(pickle)

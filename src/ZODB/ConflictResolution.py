@@ -199,7 +199,7 @@ class PersistentReference:
         return self.__cmp__(other) >= 0
 
     def __repr__(self):
-        return "PR({} {})".format(id(self), self.data)
+        return f"PR({id(self)} {self.data})"
 
     def __getstate__(self):
         raise PicklingError("Can't pickle PersistentReference")

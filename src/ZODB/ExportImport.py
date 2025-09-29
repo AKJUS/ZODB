@@ -198,7 +198,7 @@ class ExportImport:
                 self._storage.store(oid, None, data, '', transaction)
 
 
-export_end_marker = b'\377'*16
+export_end_marker = b'\377' * 16
 blob_begin_marker = b'\000BLOBSTART'
 
 

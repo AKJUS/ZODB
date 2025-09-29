@@ -172,7 +172,7 @@ class BasicStorage(RaceTests):
         # of this number
         self._dostore(data=MinPO(22))
         self._dostore(data=MinPO(23))
-        self.assertTrue(len(self._storage) in [0, 2])
+        self.assertIn(len(self._storage), [0, 2])
 
     def testGetSize(self):
         self._dostore(data=MinPO(25))
@@ -266,9 +266,11 @@ class BasicStorage(RaceTests):
         thread.join(33)
 
         tid3 = utils.load_current(self._storage, oid)[1]
-        self.assertTrue(tid3 >
-                        utils.load_current(
-                            self._storage, b'\0\0\0\0\0\0\0\xf3')[1])
+        self.assertGreater(
+            tid3,
+            utils.load_current(
+                self._storage, b'\0\0\0\0\0\0\0\xf3')[1]
+        )
 
         # ---------------------------------------------------------------------
         # non-stale competing trans after checkCurrentSerialInTransaction
@@ -293,9 +295,10 @@ class BasicStorage(RaceTests):
             self._storage.tpc_finish(t)
             thread.join()
             tid4 = utils.load_current(self._storage, oid)[1]
-            self.assertTrue(
-                tid4 >
-                utils.load_current(self._storage, b'\0\0\0\0\0\0\0\xf4')[1])
+            self.assertGreater(
+                tid4,
+                utils.load_current(self._storage, b'\0\0\0\0\0\0\0\xf4')[1]
+            )
 
     def test_tid_ordering_w_commit(self):
 

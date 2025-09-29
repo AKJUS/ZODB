@@ -32,14 +32,14 @@ class Test(unittest.TestCase):
 
     def test__del__(self):
         index = self.index
-        self.assertTrue(p64(1000) in index)
-        self.assertTrue(p64(100*1000) in index)
+        self.assertIn(p64(1000), index)
+        self.assertIn(p64(100 * 1000), index)
 
         del self.index[p64(1000)]
-        del self.index[p64(100*1000)]
+        del self.index[p64(100 * 1000)]
 
-        self.assertTrue(p64(1000) not in index)
-        self.assertTrue(p64(100*1000) not in index)
+        self.assertNotIn(p64(1000), index)
+        self.assertNotIn(p64(100 * 1000), index)
 
         for key in list(self.index):
             del index[key]
@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
         index = self.index
 
         for i in range(0, 200):
-            self.assertEqual((i, index[p64(i*1000)]), (i, (i*1000+1)))
+            self.assertEqual((i, index[p64(i * 1000)]), (i, (i * 1000 + 1)))
 
         self.assertEqual(len(index), 200)
 
@@ -71,17 +71,17 @@ class Test(unittest.TestCase):
         d = {}
 
         for i in range(200):
-            d[p64(i*1000)] = (i*1000+1)
+            d[p64(i * 1000)] = (i * 1000 + 1)
 
         index.update(d)
 
         for i in range(400, 600):
-            d[p64(i*1000)] = (i*1000+1)
+            d[p64(i * 1000)] = (i * 1000 + 1)
 
         index.update(d)
 
         for i in range(100, 500):
-            d[p64(i*1000)] = (i*1000+2)
+            d[p64(i * 1000)] = (i * 1000 + 2)
 
         index.update(d)
 

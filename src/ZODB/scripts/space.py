@@ -27,7 +27,7 @@ def run(path, v=0):
     for oid in iter:
         data, serialno = load_current(fs, oid)
         mod, klass = get_pickle_metadata(data)
-        key = "{}.{}".format(mod, klass)
+        key = f"{mod}.{klass}"
         bytes, count = totals.get(key, (0, 0))
         bytes += len(data)
         count += 1

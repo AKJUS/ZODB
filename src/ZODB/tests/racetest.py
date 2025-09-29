@@ -285,7 +285,7 @@ class RaceTests:
                 try:
                     spec.assertStateOK(root)
                 except AssertionError as e:
-                    msg = "T{}: {}\n".format(tx, e)
+                    msg = f"T{tx}: {e}\n"
                     msg += _state_details(root)
                     tg.fail(msg)
 
@@ -336,7 +336,7 @@ class RaceTests:
     @long_test
     def test_race_external_invalidate_vs_disconnect(self):
         return self._check_race_external_invalidate_vs_disconnect(
-                                                T2ObjectsInc2Phase())
+            T2ObjectsInc2Phase())
 
     @with_high_concurrency
     def _check_race_external_invalidate_vs_disconnect(self, spec):
@@ -348,7 +348,7 @@ class RaceTests:
             _state_init(db, spec)
             db.close()
 
-        nwork = 8*8   # nwork^2 from _check_race_load_vs_external_invalidate
+        nwork = 8 * 8   # nwork^2 from _check_race_load_vs_external_invalidate
 
         # `T` is similar to the T from _check_race_load_vs_external_invalidate
         # but reconnects to the database often.
@@ -366,7 +366,7 @@ class RaceTests:
                     try:
                         spec.assertStateOK(root)
                     except AssertionError as e:
-                        msg = "T{}: {}\n".format(tx, e)
+                        msg = f"T{tx}: {e}\n"
                         msg += _state_details(root)
                         tg.fail(msg)
 
@@ -406,7 +406,7 @@ class RaceTests:
         # run the workers concurrently.
         init()
 
-        N = 100 // (2*4)  # N reduced to save time
+        N = 100 // (2 * 4)  # N reduced to save time
         tg = TestWorkGroup(self)
         for _ in range(nwork):
             tg.go(T, N)
@@ -428,7 +428,7 @@ def _state_init(db, spec):
 # that the next time they are accessed, they are reloaded from the storage.
 def _state_invalidate_half1(root):
     keys = list(sorted(root.keys()))
-    for k in keys[:len(keys)//2]:
+    for k in keys[:len(keys) // 2]:
         obj = root[k]
         obj._p_invalidate()
 
@@ -439,7 +439,7 @@ def _state_details(root):  # -> txt
     # serial for all objects
     keys = list(sorted(root.keys()))
     txt = ''
-    txt += '  '.join('{}._p_serial: {}'.format(k, tid_repr(root[k]._p_serial))
+    txt += '  '.join(f'{k}._p_serial: {tid_repr(root[k]._p_serial)}'
                      for k in keys)
     txt += '\n'
 
@@ -559,6 +559,7 @@ class Daemon(threading.Thread):
     are output holding a lock. This prevents that concurrent reports
     get intermixed and facilitates the exception analysis.
     """
+
     def __init__(self, **kw):
         super().__init__(**kw)
         self.daemon = True
@@ -612,6 +613,7 @@ class WaitGroup:
        - .done() indicates that one worker is done
        - .wait() waits until all workers are done
     """
+
     def __init__(self):
         self.n = 0
         self.condition = threading.Condition()

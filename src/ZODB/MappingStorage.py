@@ -98,7 +98,7 @@ class MappingStorage:
         for oid, tid_data in self._data.items():
             size += 50
             for tid, pickle in tid_data.items():
-                size += 100+len(pickle)
+                size += 100 + len(pickle)
         return size
 
     # ZEO.interfaces.IServeable
@@ -158,7 +158,7 @@ class MappingStorage:
             before = ZODB.utils.u64(tid)
             if not before:
                 return None
-            before = ZODB.utils.p64(before-1)
+            before = ZODB.utils.p64(before - 1)
             tids_before = tid_data.keys(None, before)
             if tids_before:
                 tids_after = tid_data.keys(tid, None)
@@ -194,7 +194,7 @@ class MappingStorage:
         if not self._data:
             return
 
-        stop = ZODB.TimeStamp.TimeStamp(*time.gmtime(t)[:5]+(t % 60,)).raw()
+        stop = ZODB.TimeStamp.TimeStamp(*time.gmtime(t)[:5] + (t % 60,)).raw()
         if self._last_pack is not None and self._last_pack >= stop:
             if self._last_pack == stop:
                 return

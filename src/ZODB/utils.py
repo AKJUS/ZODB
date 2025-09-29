@@ -126,7 +126,7 @@ def cp(f1, f2, length=None, bufsize=64 * 1024):
 
 def newTid(old):
     t = time.time()
-    ts = TimeStamp(*time.gmtime(t)[:5]+(t % 60,))
+    ts = TimeStamp(*time.gmtime(t)[:5] + (t % 60,))
     if old is not None:
         ts = ts.laterThan(TimeStamp(old))
     return ts.raw()
@@ -151,7 +151,7 @@ def repr_to_oid(repr):
     if repr.startswith(b"0x"):
         repr = repr[2:]
     as_bin = unhexlify(repr)
-    as_bin = b"\x00"*(8-len(as_bin)) + as_bin
+    as_bin = b"\x00" * (8 - len(as_bin)) + as_bin
     return as_bin
 
 
@@ -166,7 +166,7 @@ tid_repr = serial_repr
 def readable_tid_repr(tid):
     result = tid_repr(tid)
     if isinstance(tid, bytes) and len(tid) == 8:
-        result = "{} {}".format(result, TimeStamp(tid))
+        result = f"{result} {TimeStamp(tid)}"
     return result
 
 # Given a ZODB pickle, return pair of strings (module_name, class_name).
@@ -292,7 +292,7 @@ if os.environ.get('DEBUG_LOCKING'):  # pragma: no cover
             f = sys._getframe(2)
             if f.f_code.co_filename.endswith('ZODB/utils.py'):
                 f = sys._getframe(3)
-            f = '{}:{}'.format(f.f_code.co_filename, f.f_lineno)
+            f = f'{f.f_code.co_filename}:{f.f_lineno}'
             print(id(self), self._lock, threading.get_ident(), f, name,
                   a if a else '', kw if kw else '')
 

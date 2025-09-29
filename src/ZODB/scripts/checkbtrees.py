@@ -113,9 +113,9 @@ def main(fname=None):
         for k, v in get_subobjects(obj):
             if k.startswith('['):
                 # getitem
-                newpath = "{}{}".format(path, k)
+                newpath = f"{path}{k}"
             else:
-                newpath = "{}.{}".format(path, k)
+                newpath = f"{path}.{k}"
             add_if_new_persistent(todo, v, newpath)
 
     print("total", len(fs._index), "found", found)

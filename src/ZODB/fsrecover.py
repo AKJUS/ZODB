@@ -144,7 +144,7 @@ def read_txn_header(f, pos, file_size, outp, ltid):
         pos = tend + 8
         return pos, None, tid
 
-    pos = tpos+(23+ul+dl+el)
+    pos = tpos + (23 + ul + dl + el)
     user = f.read(ul)
     description = f.read(dl)
     ext = f.read(el)
@@ -224,7 +224,7 @@ def scan(f, pos):
             if s > len(data) - 8:
                 pos += l_
                 break
-            tl = u64(data[s:s+8])
+            tl = u64(data[s:s + 8])
             if tl < pos:
                 return pos + s + 8
 
@@ -233,7 +233,7 @@ def iprogress(i):
     if i % 2:
         print(".", end=' ')
     else:
-        print((i/2) % 10, end=' ')
+        print((i / 2) % 10, end=' ')
     sys.stdout.flush()
 
 
@@ -321,7 +321,7 @@ def recover(inp, outp, verbose=0, partial=False, force=False, pack=None):
             t = TimeStamp(tid)
             if t <= _ts:
                 if ok:
-                    print("Time stamps out of order {}, {}".format(_ts, t))
+                    print(f"Time stamps out of order {_ts}, {t}")
                 ok = 0
                 _ts = t.laterThan(_ts)
                 tid = _ts.raw()

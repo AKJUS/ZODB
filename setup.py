@@ -25,7 +25,7 @@ long_description = read("README.rst") + "\n\n" + read("CHANGES.rst")
 
 setup(
     name="ZODB",
-    version='6.0.2.dev0',
+    version='6.1.dev0',
     author="Jim Fulton",
     author_email="jim@zope.com",
     maintainer="Zope Foundation and Contributors",
@@ -34,19 +34,18 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     url='http://zodb-docs.readthedocs.io',
-    license="ZPL 2.1",
+    license="ZPL-2.1",
     platforms=["any"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Zope Public License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Database",
@@ -91,5 +90,5 @@ setup(
       repozo = ZODB.scripts.repozo:main
     """,
     include_package_data=True,
-    python_requires='>=3.7',
+    python_requires='>=3.9',
 )

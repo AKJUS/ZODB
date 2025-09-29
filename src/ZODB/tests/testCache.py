@@ -108,7 +108,7 @@ class DBMethods(CacheTestBase):
         expected = ['conn_no', 'id', 'oid', 'rc', 'klass', 'state']
         for dict in self.db.cacheExtremeDetail():
             for k, v in dict.items():
-                self.assertTrue(k in expected)
+                self.assertIn(k, expected)
 
     # TODO:  not really sure how to do a black box test of the cache.
     # Should the full sweep and minimize calls always remove things?
@@ -117,13 +117,13 @@ class DBMethods(CacheTestBase):
         old_size = self.db.cacheSize()
         self.db.cacheFullSweep()
         new_size = self.db.cacheSize()
-        self.assertTrue(new_size < old_size, f"{old_size} < {new_size}")
+        self.assertLess(new_size, old_size, f"{old_size} < {new_size}")
 
     def testMinimize(self):
         old_size = self.db.cacheSize()
         self.db.cacheMinimize()
         new_size = self.db.cacheSize()
-        self.assertTrue(new_size < old_size, f"{old_size} < {new_size}")
+        self.assertLess(new_size, old_size, f"{old_size} < {new_size}")
 
     def testMinimizeTerminates(self):
         # This is tricky.  cPickleCache had a case where it could get into
@@ -204,7 +204,7 @@ class LRUCacheTests(CacheTestBase):
     def testLRU(self):
         # verify the LRU behavior of the cache
         dataset_size = 5
-        CACHE_SIZE = dataset_size*2+1
+        CACHE_SIZE = dataset_size * 2 + 1
         # a cache big enough to hold the objects added in two
         # transactions, plus the root object
         self.db.setCacheSize(CACHE_SIZE)
@@ -309,7 +309,7 @@ class LRUCacheTests(CacheTestBase):
                 self.assertEqual(details['state'], 0)
             # The cache should never hold an unreferenced ghost.
             if details['state'] is None:    # i.e., it's a ghost
-                self.assertTrue(details['rc'] > 0)
+                self.assertGreater(details['rc'], 0)
 
 
 class StubDataManager:

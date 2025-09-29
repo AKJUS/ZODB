@@ -97,14 +97,14 @@ class SerializerTestCase(unittest.TestCase):
 
         r = TestObjectReader(factory=_factory)
         g = r.getGhost(self.old_style_with_newargs)
-        self.assertTrue(isinstance(g, ClassWithNewargs))
+        self.assertIsInstance(g, ClassWithNewargs)
         self.assertEqual(g, 1)
         g = r.getGhost(self.old_style_without_newargs)
-        self.assertTrue(isinstance(g, ClassWithoutNewargs))
+        self.assertIsInstance(g, ClassWithoutNewargs)
         g = r.getGhost(self.new_style_with_newargs)
-        self.assertTrue(isinstance(g, ClassWithNewargs))
+        self.assertIsInstance(g, ClassWithNewargs)
         g = r.getGhost(self.new_style_without_newargs)
-        self.assertTrue(isinstance(g, ClassWithoutNewargs))
+        self.assertIsInstance(g, ClassWithoutNewargs)
 
     def test_myhasattr(self):
 
@@ -146,7 +146,7 @@ class SerializerTestCase(unittest.TestCase):
         pickle = serialize.ObjectWriter().serialize(top)
         # Make sure the persistent id is pickled using the 'C',
         # SHORT_BINBYTES opcode:
-        self.assertTrue(b'C\x04abcd' in pickle)
+        self.assertIn(b'C\x04abcd', pickle)
 
         refs = []
         u = PersistentUnpickler(None, refs.append, BytesIO(pickle))
@@ -166,7 +166,7 @@ class SerializerTestCase(unittest.TestCase):
 
         # Make sure the persistent id is pickled using the 'C',
         # SHORT_BINBYTES opcode:
-        self.assertTrue(b'C\x03o.o' in pickle)
+        self.assertIn(b'C\x03o.o', pickle)
 
 
 class SerializerFunctestCase(unittest.TestCase):

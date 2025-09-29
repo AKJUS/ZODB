@@ -141,13 +141,13 @@ class FileStorageTests(
 
         # Convert it to a dict.
         old_index = self.convert_index_to_dict()
-        self.assertTrue(isinstance(old_index, fsIndex))
+        self.assertIsInstance(old_index, fsIndex)
         new_index = self.convert_index_to_dict()
-        self.assertTrue(isinstance(new_index, dict))
+        self.assertIsInstance(new_index, dict)
 
         # Verify it's converted to fsIndex in memory upon open.
         self.open(read_only=read_only)
-        self.assertTrue(isinstance(self._storage._index, fsIndex))
+        self.assertIsInstance(self._storage._index, fsIndex)
 
         # Verify it has the right content.
         newindex_as_dict = dict(self._storage._index)
@@ -157,9 +157,9 @@ class FileStorageTests(
         self._storage.close()
         current_index = self.convert_index_to_dict()
         if read_only:
-            self.assertTrue(isinstance(current_index, dict))
+            self.assertIsInstance(current_index, dict)
         else:
-            self.assertTrue(isinstance(current_index, fsIndex))
+            self.assertIsInstance(current_index, fsIndex)
 
     def test_conversion_to_fsIndex_readonly(self):
         # Same thing, but the disk .index should continue to hold a
@@ -190,8 +190,8 @@ class FileStorageTests(
 
         # Verify it's converted to fsIndex in memory upon open.
         self.open()
-        self.assertTrue(isinstance(self._storage._index, fsIndex))
-        self.assertTrue(isinstance(self._storage._index._data, OOBTree))
+        self.assertIsInstance(self._storage._index, fsIndex)
+        self.assertIsInstance(self._storage._index._data, OOBTree)
 
         # Verify it has the right content.
         new_data_dict = dict(self._storage._index._data)
@@ -219,7 +219,7 @@ class FileStorageTests(
         giant_oid = b'\xee' * 8
         # Store an object.
         # oid, serial, data, version, transaction
-        self._storage.store(giant_oid, b'\0'*8, b'data', b'', t)
+        self._storage.store(giant_oid, b'\0' * 8, b'data', b'', t)
         # Finish the transaction.
         self._storage.tpc_vote(t)
         self._storage.tpc_finish(t)
@@ -236,7 +236,7 @@ class FileStorageTests(
         giant_oid = b'\xee' * 8
         # Store an object.
         # oid, serial, data, version, prev_txn, transaction
-        self._storage.restore(giant_oid, b'\0'*8, b'data', b'', None, t)
+        self._storage.restore(giant_oid, b'\0' * 8, b'data', b'', None, t)
         # Finish the transaction.
         self._storage.tpc_vote(t)
         self._storage.tpc_finish(t)
@@ -255,7 +255,7 @@ class FileStorageTests(
         self._storage.tpc_finish(t)
         rev1 = self._storage.lastTransaction()
 
-        rev2 = p64(U64(rev1)+1)
+        rev2 = p64(U64(rev1) + 1)
         t = TransactionMetaData()
         self._storage.tpc_begin(t, rev2)
         # restore should write data record with backpointer to rev1
@@ -326,8 +326,11 @@ class FileStorageTests(
         try:
             self._storage.pack(time.time(), referencesf)
         except CorruptedError as detail:
-            self.assertTrue("redundant transaction length does not match "
-                            "initial transaction length" in str(detail))
+            self.assertIn(
+                "redundant transaction length does not match "
+                "initial transaction length",
+                str(detail)
+            )
         else:
             self.fail("expected CorruptedError")
 
@@ -412,9 +415,9 @@ class FileStorageTests(
             # FileStorage.TransactionRecord or hexstorage.Transaction
             trec = v[0]
             self.assertEqual(trec.tid, head)
-            self.assertEqual(trec.user,          b'')
-            self.assertEqual(trec.description,   description.encode('utf-8'))
-            self.assertEqual(trec.extension,     {})
+            self.assertEqual(trec.user, b'')
+            self.assertEqual(trec.description, description.encode('utf-8'))
+            self.assertEqual(trec.extension, {})
             drecv = list(trec)
             self.assertEqual(drecv, [])
 

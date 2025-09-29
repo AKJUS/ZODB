@@ -376,7 +376,7 @@ class TransactionalUndoStorage:
         # record by packing.
 
         # Add a few object revisions
-        oid = b'\0'*8
+        oid = b'\0' * 8
         revid0 = self._dostore(oid, data=MinPO(50))
         revid1 = self._dostore(oid, revid=revid0, data=MinPO(51))
         snooze()
@@ -723,8 +723,8 @@ class TransactionalUndoStorage:
 
         # Try a slice that doesn't start at 0.
         oddball = info_func(first=11, last=17)
-        self.assertEqual(len(oddball), 17-11)
-        self.assertEqual(oddball, allofem[11: 11+len(oddball)])
+        self.assertEqual(len(oddball), 17 - 11)
+        self.assertEqual(oddball, allofem[11: 11 + len(oddball)])
 
         # And another way to spell the same thing.
         redundant = info_func(first=11, last=-6)

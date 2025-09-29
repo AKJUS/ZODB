@@ -107,7 +107,7 @@ class ZODBTests(ZODB.tests.util.TestCase):
         l1 = list(map(lambda k_v: (k_v[0], k_v[1][0]), l1))
         l2 = list(map(lambda k_v1: (k_v1[0], k_v1[1][0]), l2))
         self.assertEqual(l1, l2)
-        self.assertTrue(ob._p_oid != ob2._p_oid)
+        self.assertNotEqual(ob._p_oid, ob2._p_oid)
         self.assertEqual(ob._p_jar, ob2._p_jar)
         oids = {}
         for v in ob.values():
@@ -128,7 +128,7 @@ class ZODBTests(ZODB.tests.util.TestCase):
         self.populate()
         conn = self._db.open()
         conn.root()
-        self.assertTrue(len(conn._cache) > 0)  # Precondition
+        self.assertGreater(len(conn._cache), 0)  # Precondition
         conn._resetCache()
         self.assertEqual(len(conn._cache), 0)
 
@@ -138,10 +138,10 @@ class ZODBTests(ZODB.tests.util.TestCase):
         self.populate()
         conn = self._db.open()
         conn.root()
-        self.assertTrue(len(conn._cache) > 0)  # Precondition
+        self.assertGreater(len(conn._cache), 0)  # Precondition
         ZODB.Connection.resetCaches()
         conn.close()
-        self.assertTrue(len(conn._cache) > 0)  # Still not flushed
+        self.assertGreater(len(conn._cache), 0)  # Still not flushed
         conn.open()  # simulate the connection being reopened
         self.assertEqual(len(conn._cache), 0)
 
@@ -345,7 +345,7 @@ class ZODBTests(ZODB.tests.util.TestCase):
             new_btree['change_to_trigger_read_current'] = P()
             sp.rollback()
             transaction.commit()
-            self.assertTrue('added_before_savepoint' in root)
+            self.assertIn('added_before_savepoint', root)
         finally:
             transaction.abort()
             cn.close()

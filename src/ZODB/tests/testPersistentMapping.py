@@ -65,7 +65,7 @@ class PMTests(unittest.TestCase):
 
         from ZODB.PersistentMapping import PersistentMapping as oldPath
 
-        self.assertTrue(oldPath is newPath)
+        self.assertIs(oldPath, newPath)
 
     def testBasicOps(self):
         from persistent.mapping import PersistentMapping
@@ -73,7 +73,7 @@ class PMTests(unittest.TestCase):
         m['name'] = 'bob'
         self.assertEqual(m['name'], "bob")
         self.assertEqual(m.get('name', 42), "bob")
-        self.assertTrue('name' in m)
+        self.assertIn('name', m)
 
         try:
             m['fred']
@@ -81,7 +81,7 @@ class PMTests(unittest.TestCase):
             pass
         else:
             self.fail("expected KeyError")
-        self.assertTrue('fred' not in m)
+        self.assertNotIn('fred', m)
         self.assertEqual(m.get('fred'), None)
         self.assertEqual(m.get('fred', 42), 42)
 

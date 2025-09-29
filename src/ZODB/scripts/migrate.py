@@ -199,7 +199,7 @@ def main():
         doit(srcdb, dstdb, options)
         t1 = time.time()
         if options.verbose > 0:
-            print('Migration time:          %8.3f' % (t1-t0))
+            print('Migration time:          %8.3f' % (t1 - t0))
     finally:
         # Done
         srcdb.close()
@@ -248,7 +248,7 @@ def doit(srcdb, dstdb, options):
             t = TimeStamp(tid)
             if t <= ts:
                 if ok:
-                    print('Time stamps are out of order {}, {}'.format(ts, t),
+                    print(f'Time stamps are out of order {ts}, {t}',
                           file=sys.stderr)
                     ok = False
                     ts = t.laterThan(ts)
@@ -310,8 +310,23 @@ def doit(srcdb, dstdb, options):
         else:
             tidstr = utils.U64(tid)
             format = "%4d. %20s %6d %8d %6.4f %6.4f %6.4f %6.4f %6.4f"
-        print(format % (skipper, tidstr, objects, size,
-                        t4-t0, t1-t0, t2-t1, t3-t2, t4-t3), file=outfp)
+        print(
+            format %
+            (skipper,
+             tidstr,
+             objects,
+             size,
+             t4 -
+             t0,
+             t1 -
+             t0,
+             t2 -
+             t1,
+             t3 -
+             t2,
+             t4 -
+             t3),
+            file=outfp)
         total_pickle_size += size
         total_object_count += objects
 

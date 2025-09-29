@@ -128,7 +128,7 @@ class BaseStorage(UndoLogCompatible):
         return self.__name__
 
     def getSize(self):
-        return len(self)*300  # WAG!
+        return len(self) * 300  # WAG!
 
     def history(self, oid, version, length=1, filter=None):
         return ()
@@ -141,7 +141,7 @@ class BaseStorage(UndoLogCompatible):
             last = self._oid
             d = byte_ord(last[-1])
             if d < 255:  # fast path for the usual case
-                last = last[:-1] + byte_chr(d+1)
+                last = last[:-1] + byte_chr(d + 1)
             else:        # there's a carry out of the last byte
                 last_as_long, = _structunpack(">Q", last)
                 last = _structpack(">Q", last_as_long + 1)
@@ -323,7 +323,7 @@ def copy(source, dest, verbose=0):
             t = TimeStamp(tid)
             if t <= _ts:
                 if ok:
-                    print('Time stamps out of order {}, {}'.format(_ts, t))
+                    print(f'Time stamps out of order {_ts}, {t}')
                 ok = 0
                 _ts = t.laterThan(_ts)
                 tid = _ts.raw()

@@ -17,7 +17,7 @@ import atexit
 import doctest
 import functools
 import os
-import pdb
+import pdb  # NOQA: T100 pdb import
 import re
 import runpy
 import sys
@@ -103,7 +103,7 @@ def long_test(f):
 
 
 def pack(db):
-    db.pack(time.time()+1)
+    db.pack(time.time() + 1)
 
 
 class P(persistent.Persistent):
@@ -173,7 +173,7 @@ def assert_deprecated(func, warning_text=''):
 def wait(func=None, timeout=30):
     if func is None:
         return lambda f: wait(f, timeout)
-    for _ in range(int(timeout*100)):
+    for _ in range(int(timeout * 100)):
         if func():
             return
         time.sleep(.01)

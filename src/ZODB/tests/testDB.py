@@ -63,7 +63,7 @@ class DBTests(ZODB.tests.util.TestCase):
         #       have tests of referencesf.
 
         import ZODB.serialize
-        self.assertTrue(self.db.references is ZODB.serialize.referencesf)
+        self.assertIs(self.db.references, ZODB.serialize.referencesf)
 
     def test_history_and_undo_meta_data_text_handlinf(self):
         db = self.db

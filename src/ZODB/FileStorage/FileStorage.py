@@ -243,7 +243,7 @@ class FileStorage(
             raise ValueError("time-travel only supported in read-only mode")
 
         if stop is None:
-            stop = b'\377'*8
+            stop = b'\377' * 8
 
         # Lock the database and set up the temp file.
         if not read_only:
@@ -469,7 +469,7 @@ class FileStorage(
         # file is rewritten with the converted fsIndex so we don't need to
         # convert it again the next time.
         file_name = self.__name__
-        index_name = file_name+'.index'
+        index_name = file_name + '.index'
 
         if os.path.exists(index_name):
             try:
@@ -533,7 +533,7 @@ class FileStorage(
         except KeyError:
             raise POSKeyError(oid)
         except TypeError:
-            raise TypeError("invalid oid {!r}".format(oid))
+            raise TypeError(f"invalid oid {oid!r}")
 
     def load(self, oid, version=''):
         """Return pickle data and serial number."""
@@ -850,7 +850,7 @@ class FileStorage(
 
     def _finish(self, tid, u, d, e):
         # Clear the checkpoint flag
-        self._file.seek(self._pos+16)
+        self._file.seek(self._pos + 16)
         self._file.write(as_bytes(self._tstatus))
         try:
             # At this point, we may have committed the data to disk.
@@ -1219,7 +1219,7 @@ class FileStorage(
         if self._is_read_only:
             raise ReadOnlyError()
 
-        stop = TimeStamp(*time.gmtime(t)[:5]+(t % 60,)).raw()
+        stop = TimeStamp(*time.gmtime(t)[:5] + (t % 60,)).raw()
         if stop == z64:
             raise FileStorageError('Invalid pack time')
 
@@ -1291,7 +1291,7 @@ class FileStorage(
     def _remove_blob_files_tagged_for_removal_during_pack(self):
         lblob_dir = len(self.blob_dir)
         fshelper = self.fshelper
-        old = self.blob_dir+'.old'
+        old = self.blob_dir + '.old'
 
         # Helper to clean up dirs left empty after moving things to old
         def maybe_remove_empty_dir_containing(path, level=0):
@@ -1324,7 +1324,7 @@ class FileStorage(
                     self._lock.release()
 
             if removed:
-                maybe_remove_empty_dir_containing(path, level+1)
+                maybe_remove_empty_dir_containing(path, level + 1)
 
         if self.pack_keep_old:
             # Helpers that move oid dir or revision file to the old dir.
@@ -1333,7 +1333,7 @@ class FileStorage(
                          os.path.join(old, '.layout'))
 
             def handle_file(path):
-                newpath = old+path[lblob_dir:]
+                newpath = old + path[lblob_dir:]
                 dest = os.path.dirname(newpath)
                 if not os.path.exists(dest):
                     os.makedirs(dest)
@@ -1383,10 +1383,10 @@ class FileStorage(
                 if not file_name.endswith('.blob'):
                     continue
                 file_path = os.path.join(path, file_name)
-                dest = os.path.dirname(old+file_path[lblob_dir:])
+                dest = os.path.dirname(old + file_path[lblob_dir:])
                 if not os.path.exists(dest):
                     os.makedirs(dest)
-                link_or_copy(file_path, old+file_path[lblob_dir:])
+                link_or_copy(file_path, old + file_path[lblob_dir:])
 
     def iterator(self, start=None, stop=None):
         return FileIterator(self._file_name, start, stop)
@@ -1399,7 +1399,7 @@ class FileStorage(
             pos = self._pos
             while count > 0 and pos > 4:
                 count -= 1
-                seek(pos-8)
+                seek(pos - 8)
                 pos = pos - 8 - u64(read(8))
 
             seek(0)
@@ -1468,7 +1468,7 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
     # Initialize,
     p1 = opos
     p2 = pos
-    offset = p2-p1
+    offset = p2 - p1
 
     # Copy the data in two stages.  In the packing stage,
     # we skip records that are non-current or that are for
@@ -1491,11 +1491,11 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
             break  # Oops. we found a checkpoint flag.
         tl = u64(stl)
         tpos = pos
-        tend = tpos+tl
+        tend = tpos + tl
 
         otpos = opos  # start pos of output trans
 
-        thl = ul+dl+el
+        thl = ul + dl + el
         h2 = read(thl)
         if len(h2) != thl:
             raise PackError(opos)
@@ -1505,9 +1505,9 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
         write(h)
         write(h2)
 
-        thl = TRANS_HDR_LEN+thl
-        pos = tpos+thl
-        opos = otpos+thl
+        thl = TRANS_HDR_LEN + thl
+        pos = tpos + thl
+        opos = otpos + thl
 
         while pos < tend:
             # Read the data records for this transaction
@@ -1516,7 +1516,7 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
             oid, serial, sprev, stloc, vlen, splen = unpack(DATA_HDR, h)
             assert not vlen
             plen = u64(splen)
-            dlen = DATA_HDR_LEN+(plen or 8)
+            dlen = DATA_HDR_LEN + (plen or 8)
 
             tindex[oid] = opos
 
@@ -1526,7 +1526,7 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
                 p = read(8)
                 p = u64(p)
                 if p >= p2:
-                    p = p-offset
+                    p = p - offset
                 elif p >= p1:
                     # Ick, we're in trouble. Let's bail
                     # to the index and hope for the best
@@ -1541,11 +1541,11 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
 
             write(p)
 
-            opos = opos+dlen
-            pos = pos+dlen
+            opos = opos + dlen
+            pos = pos + dlen
 
         # skip the (intentionally redundant) transaction length
-        pos = pos+8
+        pos = pos + 8
 
         if status != 'u':
             index.update(tindex)  # Record the position
@@ -1553,7 +1553,7 @@ def shift_transactions_forward(index, tindex, file, pos, opos):
         tindex.clear()
 
         write(stl)
-        opos = opos+8
+        opos = opos + 8
 
     return opos
 
@@ -1564,11 +1564,11 @@ def search_back(file, pos):
     seek(0, 2)
     s = p = file.tell()
     while p > pos:
-        seek(p-8)
+        seek(p - 8)
         l_ = u64(read(8))
         if l_ <= 0:
             break
-        p = p-l_-8
+        p = p - l_ - 8
 
     return p, s
 
@@ -1591,10 +1591,10 @@ def recover(file_name):
     file.truncate(npos)
 
     print("Recovered file, lost {}, ended up with {} bytes".format(
-        pos-opos, npos))
+        pos - opos, npos))
 
 
-def read_index(file, name, index, tindex, stop=b'\377'*8,
+def read_index(file, name, index, tindex, stop=b'\377' * 8,
                ltid=z64, start=4, maxoid=z64, recover=0, read_only=0):
     """Scan the file storage and update the index.
 
@@ -1669,7 +1669,7 @@ def read_index(file, name, index, tindex, stop=b'\377'*8,
             logger.warning("%s time-stamp reduction at %s", name, pos)
         ltid = tid
 
-        if pos+(tl+8) > file_size or status == 'c':
+        if pos + (tl + 8) > file_size or status == 'c':
             # Hm, the data were truncated or the checkpoint flag wasn't
             # cleared.  They may also be corrupted,
             # in which case, we don't want to totally lose the data.
@@ -1786,7 +1786,7 @@ def _truncate(file, name, pos):
     try:
         i = 0
         while 1:
-            oname = '{}.tr{}'.format(name, i)
+            oname = f'{name}.tr{i}'
             if os.path.exists(oname):
                 i += 1
             else:
@@ -1794,7 +1794,7 @@ def _truncate(file, name, pos):
                                name, oname)
                 o = open(oname, 'wb')
                 file.seek(pos)
-                cp(file, o, file_size-pos)
+                cp(file, o, file_size - pos)
                 o.close()
                 break
     except:  # noqa: E722 do not use bare 'except'
@@ -1878,14 +1878,14 @@ class FileIterator(FileStorageFormatter):
             # opened the file while committing a transaction.  In that
             # case, we'll just scan from the beginning if the file is
             # small enough, otherwise we'll fail.
-            file.seek(self._file_size-8)
+            file.seek(self._file_size - 8)
             l_ = u64(file.read(8))
             if not (l_ + 12 <= self._file_size and
-                    self._read_num(self._file_size-l_) == l_):
+                    self._read_num(self._file_size - l_) == l_):
                 if self._file_size < (1 << 20):
                     return self._scan_foreward(start)
                 raise ValueError("Can't find last transaction in large file")
-            pos2 = self._file_size-l_-8
+            pos2 = self._file_size - l_ - 8
             file.seek(pos2)
             tid2 = file.read(8)
             if tid2 < tid1:

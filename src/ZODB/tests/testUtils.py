@@ -75,7 +75,7 @@ class TestUtils(unittest.TestCase):
 
         # The pickle contains a GLOBAL ('c') opcode resolving to MinPO's
         # module and class.
-        self.assertTrue(b'cZODB.tests.MinPO\nMinPO\n' in data)
+        self.assertIn(b'cZODB.tests.MinPO\nMinPO\n', data)
 
         # Fiddle the pickle so it points to something "impossible" instead.
         data = data.replace(b'cZODB.tests.MinPO\nMinPO\n',
@@ -88,8 +88,10 @@ class TestUtils(unittest.TestCase):
             raise ConflictError(object=obj, data=data)
         except ConflictError as detail:
             # And verify that the msg names the impossible path.
-            self.assertTrue(
-                'path.that.does.not.exist.likewise.the.class' in str(detail))
+            self.assertIn(
+                'path.that.does.not.exist.likewise.the.class',
+                str(detail)
+            )
         else:
             self.fail("expected ConflictError, but no exception raised")
 

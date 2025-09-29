@@ -44,7 +44,7 @@ def fsdump(path, file=None, with_offset=1):
             else:
                 modname, classname = get_pickle_metadata(rec.data)
                 size = " size=%d" % len(rec.data)
-                fullclass = "{}.{}".format(modname, classname)
+                fullclass = f"{modname}.{classname}"
 
             if rec.data_txn:
                 # It would be nice to print the transaction number

@@ -39,7 +39,7 @@ from ZODB.tests.util import time_monotonically_increases
 from ZODB.utils import load_current
 
 
-ZERO = b'\0'*8
+ZERO = b'\0' * 8
 
 
 # This class is for the root object.  It must not contain a getoid() method
@@ -339,9 +339,9 @@ class PackableStorage(PackableStorageBase):
         transaction.commit()
         root[2] = conn.get_connection('o').root()
         transaction.commit()
-        db.pack(time.time()+1)
+        db.pack(time.time() + 1)
         # some valid storages always return 0 for len()
-        self.assertTrue(len(self._storage) in (0, 1))
+        self.assertIn(len(self._storage), (0, 1))
         conn.close()
         otherdb.close()
         db.close()
