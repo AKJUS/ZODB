@@ -316,16 +316,11 @@ def doit(srcdb, dstdb, options):
              tidstr,
              objects,
              size,
-             t4 -
-             t0,
-             t1 -
-             t0,
-             t2 -
-             t1,
-             t3 -
-             t2,
-             t4 -
-             t3),
+             t4 - t0,
+             t1 - t0,
+             t2 - t1,
+             t3 - t2,
+             t4 - t3),
             file=outfp)
         total_pickle_size += size
         total_object_count += objects

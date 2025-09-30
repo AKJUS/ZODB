@@ -788,8 +788,8 @@ def do_verify(options):
             elif not options.quick:
                 if actual_sum != sum:
                     raise VerificationFail(
-                        "{} has checksum {}{} instead of {}".format(
-                            filename, actual_sum, when_uncompressed, sum))
+                        f"{filename} has checksum {actual_sum}"
+                        f"{when_uncompressed} instead of {sum}")
 
 
 def get_checksum_and_size_of_gzipped_file(filename, quick):
