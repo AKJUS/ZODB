@@ -93,7 +93,7 @@ def get_chat_session(conn, channelname):
     # Get a session object corresponding to the channel name, creating
     # it if necessary.
     if not sessions.has_key(channelname):
-        print 'Creating new session:', channelname
+        print('Creating new session:', channelname)
         sessions[channelname] = ChatSession(channelname)
         transaction.commit()
 
@@ -103,7 +103,7 @@ def get_chat_session(conn, channelname):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print 'Usage: %s <channelname>' % sys.argv[0]
+        print('Usage: %s <channelname>' % sys.argv[0])
         sys.exit(0)
 
     storage = ClientStorage.ClientStorage(('localhost', 9672))
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
         # Display new messages
         for msg in session.new_messages():
-            print msg
+            print(msg)
 
         # Wait for a few seconds
         pause = random.randint(1, 4)

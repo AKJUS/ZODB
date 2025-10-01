@@ -22,7 +22,7 @@ if __name__ == '__main__':
         def get(self, a, b=None):
             if os.path.exists(a + '.tex'):
                 return a + '.rst'
-            print "UNKNOWN FILE %s" % a
+            print("UNKNOWN FILE %s" % a)
             return a
     restwriter.includes_mapping = IncludeRewrite()
 
