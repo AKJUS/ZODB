@@ -84,7 +84,7 @@ def get_chat_session(conn, channelname):
     # the key 'chat_sessions'.
     root = conn.root()
     if not root.has_key('chat_sessions'):
-        print 'Creating chat_sessions B-tree'  # NOQA: E999 print statement
+        print('Creating chat_sessions B-tree')
         root['chat_sessions'] = OOBTree.OOBTree()
         transaction.commit()
 
