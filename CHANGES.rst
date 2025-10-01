@@ -2,7 +2,7 @@
  Change History
 ================
 
-6.1 (unreleased)
+6.1 (2025-10-01)
 ================
 
 - Add support for Python 3.13.
@@ -13,15 +13,17 @@
 6.0.1 (2025-04-13)
 ==================
 
- - repozo: fix restoring on stdout.
+- repozo: fix restoring on stdout.
 
- - repozo: prevent an incorrect "option ignored" warning when running backup or verify.
+- repozo: prevent an incorrect "option ignored" warning when running backup
+  or verify.
 
- - FileStorage: fix `restore` regression introduced in ZODB 6.0 in `#395
-   <https://github.com/zopefoundation/ZODB/pull/395>`_: when restoring data
-   records with undo the `restore` was no longer emitting backpointers and was
-   emitting duplicate data copies instead. `#409 <https://github.com/zopefoundation/ZODB/pull/409>`_
-   fixes `restore` back to emit data records with backpointers for undo again.
+- FileStorage: fix `restore` regression introduced in ZODB 6.0 in `#395
+  <https://github.com/zopefoundation/ZODB/pull/395>`_: when restoring data
+  records with undo the `restore` was no longer emitting backpointers and was
+  emitting duplicate data copies instead.
+  `#409 <https://github.com/zopefoundation/ZODB/pull/409>`_
+  fixes `restore` back to emit data records with backpointers for undo again.
 
 
 6.0 (2024-03-20)
@@ -33,7 +35,8 @@
 
 - Fix sorting issue in ``scripts/space.py``.
 
-- FileStorage: fix a rare data corruption when using restore after multiple undos.
+- FileStorage: fix a rare data corruption when using restore after multiple
+  undos.
   For details see `#395 <https://github.com/zopefoundation/ZODB/pull/395>`_.
 
 - Fix exit code of ``repozo`` script in case of verification error.
