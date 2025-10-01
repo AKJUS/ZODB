@@ -13,7 +13,7 @@ if __name__ == '__main__':
         rootdir = sys.argv[1]
         destdir = os.path.abspath(sys.argv[2])
     except IndexError:
-        print "usage: convert.py docrootdir destdir"  # NOQA: E999 print
+        print("usage: convert.py docrootdir destdir")
         sys.exit()
 
     os.chdir(rootdir)
