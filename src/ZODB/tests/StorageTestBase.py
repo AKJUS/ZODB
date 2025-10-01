@@ -75,7 +75,7 @@ def zodb_pickle(obj):
 
 def persistent_load(pid):
     # helper for zodb_unpickle
-    return "ref to {}.{} oid={}".format(pid[1][0], pid[1][1], u64(pid[0]))
+    return f"ref to {pid[1][0]}.{pid[1][1]} oid={u64(pid[0])}"
 
 
 def zodb_unpickle(data):

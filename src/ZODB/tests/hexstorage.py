@@ -76,11 +76,11 @@ class HexStorage:
 
     def store(self, oid, serial, data, version, transaction):
         return self.base.store(
-            oid, serial, b'.h'+hexlify(data), version, transaction)
+            oid, serial, b'.h' + hexlify(data), version, transaction)
 
     def restore(self, oid, serial, data, version, prev_txn, transaction):
         return self.base.restore(
-            oid, serial, data and (b'.h'+hexlify(data)), version, prev_txn,
+            oid, serial, data and (b'.h' + hexlify(data)), version, prev_txn,
             transaction)
 
     def iterator(self, start=None, stop=None):
@@ -94,13 +94,13 @@ class HexStorage:
 
     def storeBlob(self, oid, oldserial, data, blobfilename, version,
                   transaction):
-        return self.base.storeBlob(oid, oldserial, b'.h'+hexlify(data),
+        return self.base.storeBlob(oid, oldserial, b'.h' + hexlify(data),
                                    blobfilename, version, transaction)
 
     def restoreBlob(self, oid, serial, data, blobfilename, prev_txn,
                     transaction):
         return self.base.restoreBlob(oid, serial,
-                                     data and (b'.h'+hexlify(data)),
+                                     data and (b'.h' + hexlify(data)),
                                      blobfilename, prev_txn, transaction)
 
     def invalidateCache(self):
@@ -113,7 +113,7 @@ class HexStorage:
         return self.db.references(unhexlify(record[2:]), oids)
 
     def transform_record_data(self, data):
-        return b'.h'+hexlify(self._db_transform(data))
+        return b'.h' + hexlify(self._db_transform(data))
 
     def untransform_record_data(self, data):
         return self._db_untransform(unhexlify(data[2:]))

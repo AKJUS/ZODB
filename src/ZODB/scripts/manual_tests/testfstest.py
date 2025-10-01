@@ -43,7 +43,7 @@ class TestCorruptedFS(ZODB.tests.util.TestCase):
             fstest.check(self._temp)
         except FormatError as msg:
             mo = re.search(rx, str(msg))
-            self.assertFalse(mo is None, "unexpected error: %s" % msg)
+            self.assertIsNotNone(mo, "unexpected error: %s" % msg)
         else:
             self.fail("fstest did not detect corruption")
 
@@ -82,7 +82,7 @@ class TestCorruptedFS(ZODB.tests.util.TestCase):
         self.detectsError("invalid file header")
 
     def testTruncatedTransaction(self):
-        self._file.write(self.datafs[:4+22])
+        self._file.write(self.datafs[:4 + 22])
         self.detectsError("truncated")
 
     def testCheckpointFlag(self):

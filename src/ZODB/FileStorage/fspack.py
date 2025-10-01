@@ -558,10 +558,10 @@ class FileStoragePacker(FileStorageFormatter):
                         if not is_dup:
                             if h.oid not in self.gc.reachable:
                                 self.blob_removed.write(
-                                    binascii.hexlify(h.oid)+b'\n')
+                                    binascii.hexlify(h.oid) + b'\n')
                             else:
                                 self.blob_removed.write(
-                                    binascii.hexlify(h.oid+h.tid)+b'\n')
+                                    binascii.hexlify(h.oid + h.tid) + b'\n')
 
                 pos += h.recordlen()
                 continue

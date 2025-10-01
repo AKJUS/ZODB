@@ -131,7 +131,7 @@ class ConnectionPool(AbstractConnectionPool):
                 and (available[-1][1]._cache.cache_non_ghost_count > cactive)):
             i = len(available) - 1
             while (i and
-                   (available[i-1][1]._cache.cache_non_ghost_count > cactive)
+                   (available[i - 1][1]._cache.cache_non_ghost_count > cactive)
                    ):
                 i -= 1
             available.insert(i, (time.time(), c))
@@ -299,7 +299,7 @@ def toTimeStamp(dt):
     utc_struct = dt.utctimetuple()
     # if this is a leapsecond, this will probably fail.  That may be a good
     # thing: leapseconds are not really accounted for with serials.
-    args = utc_struct[:5]+(utc_struct[5] + dt.microsecond/1000000.0,)
+    args = utc_struct[:5] + (utc_struct[5] + dt.microsecond / 1000000.0,)
     return TimeStamp(*args)
 
 
@@ -513,7 +513,7 @@ class DB:
             for oid, ob in con._cache.items():
                 module = getattr(ob.__class__, '__module__', '')
                 module = module and '%s.' % module or ''
-                c = "{}{}".format(module, ob.__class__.__name__)
+                c = f"{module}{ob.__class__.__name__}"
                 if c in detail:
                     detail[c] += 1
                 else:
@@ -568,7 +568,7 @@ class DB:
                     'conn_no': cn,
                     'oid': oid,
                     'id': id,
-                    'klass': "{}{}".format(module, ob.__class__.__name__),
+                    'klass': f"{module}{ob.__class__.__name__}",
                     'rc': (rc(ob) - 3 - (ob._p_changed is not None)
                            if rc else False),
                     'state': ob._p_changed,
@@ -802,13 +802,13 @@ class DB:
                     d = d[0]
             else:
                 d = ''
-            d = "{} ({})".format(d, len(c._cache))
+            d = f"{d} ({len(c._cache)})"
 
             # output UTC time with the standard Z time zone indicator
             result.append({
                 'opened': o and ("{} ({:.2f}s)".format(
                     time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(o)),
-                    t-o)),
+                    t - o)),
                 'info': d,
                 'before': c.before,
             })
@@ -1110,7 +1110,7 @@ class TransactionalUndo:
         # not open yet. Fortunately new_instances of a storage are
         # supposed to return the same sort key as the original storage
         # did.
-        return "{}:{}".format(self._db._mvcc_storage.sortKey(), id(self))
+        return f"{self._db._mvcc_storage.sortKey()}:{id(self)}"
 
 
 def connection(*args, **kw):

@@ -33,7 +33,7 @@ class TransactionMetaDataTests(unittest.TestCase):
             self.assertEqual(t._extension, t.extension)
             self.assertEqual(len(w), 1)
             self.assertTrue(issubclass(w[-1].category, DeprecationWarning))
-            self.assertTrue("_extension is deprecated" in str(w[-1].message))
+            self.assertIn("_extension is deprecated", str(w[-1].message))
 
     def test_basic_no_encoding(self):
         extension = dict(foo='FOO')

@@ -315,7 +315,7 @@ class RecoveryBlobStorage(BlobTestBase,
         conn.root()[3] = ZODB.blob.Blob()
         with conn.root()[3].open('w') as file:
             file.write(
-                (b''.join(struct.pack(">I", random.randint(0, (1 << 32)-1))
+                (b''.join(struct.pack(">I", random.randint(0, (1 << 32) - 1))
                           for i in range(random.randint(10000, 20000)))
                  )[:-random.randint(1, 4)]
             )
@@ -786,7 +786,7 @@ def storage_reusable_suite(prefix, factory,
 
     def add_test_based_on_test_class(class_):
         new_class = class_.__class__(
-            prefix+class_.__name__, (class_, ),
+            prefix + class_.__name__, (class_, ),
             dict(create_storage=create_storage),
         )
         suite.addTest(
@@ -798,7 +798,7 @@ def storage_reusable_suite(prefix, factory,
         add_test_based_on_test_class(BlobUndoTests)
 
     suite.layer = ZODB.tests.util.MonotonicallyIncreasingTimeMinimalTestLayer(
-        prefix+'BlobTests')
+        prefix + 'BlobTests')
 
     return suite
 

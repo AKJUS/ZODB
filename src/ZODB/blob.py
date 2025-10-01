@@ -105,7 +105,7 @@ class Blob(persistent.Persistent):
         # XXX should we warn of this? Maybe?
         if self._p_changed is None:
             return
-        for ref in (self.readers or [])+(self.writers or []):
+        for ref in (self.readers or []) + (self.writers or []):
             f = ref()
             if f is not None:
                 f.close()
@@ -238,7 +238,7 @@ class Blob(persistent.Persistent):
             # If we have uncommitted data, we move it aside for now
             # in case the consumption doesn't work.
             target = self._p_blob_uncommitted
-            target_aside = target+".aside"
+            target_aside = target + ".aside"
             os.rename(target, target_aside)
         else:
             target = self._create_uncommitted_file()
@@ -326,7 +326,7 @@ class BlobFile(FileIO):
     # the storage later puts them to avoid copying them ...
 
     def __init__(self, name, mode, blob):
-        super().__init__(name, mode+'b')
+        super().__init__(name, mode + 'b')
         self.blob = blob
 
     def close(self):
@@ -345,7 +345,7 @@ _pid = str(os.getpid())
 
 
 def log(msg, level=logging.INFO, subsys=_pid, exc_info=False):
-    message = "({}) {}".format(subsys, msg)
+    message = f"({subsys}) {msg}"
     logger.log(level, message, exc_info=exc_info)
 
 
@@ -585,7 +585,7 @@ class BushyLayout:
         hex_bytes = binascii.hexlify(oid_bytes)
         assert len(hex_bytes) == 16
 
-        directories = [b'0x' + hex_bytes[x:x+2]
+        directories = [b'0x' + hex_bytes[x:x + 2]
                        for x in range(0, 16, 2)]
 
         if bytes is not str:  # py3
@@ -610,7 +610,7 @@ class BushyLayout:
 
         """
         oid_path = self.oid_to_path(oid)
-        filename = "{}{}".format(utils.tid_repr(tid), BLOB_SUFFIX)
+        filename = f"{utils.tid_repr(tid)}{BLOB_SUFFIX}"
         return os.path.join(oid_path, filename)
 
 

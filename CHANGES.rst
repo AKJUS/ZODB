@@ -2,8 +2,12 @@
  Change History
 ================
 
-6.0.2 (unreleased)
-==================
+6.1 (unreleased)
+================
+
+- Add support for Python 3.13.
+
+- Drop support for Python 3.7 and 3.8.
 
 
 6.0.1 (2025-04-13)

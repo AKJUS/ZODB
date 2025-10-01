@@ -67,7 +67,7 @@ def report(rep):
     fmtp = "%-46s %7d %9d %5.1f%% %7.2f"  # per-class format
     fmts = "%46s %7d %8dk %5.1f%% %7.2f"  # summary format
     print(fmt % ("Class Name", "Count", "TBytes", "Pct", "AvgSize"))
-    print(fmt % ('-'*46, '-'*7, '-'*9, '-'*5, '-'*7))
+    print(fmt % ('-' * 46, '-' * 7, '-' * 9, '-' * 5, '-' * 7))
     typemap = sorted(rep.TYPEMAP)
     cumpct = 0.0
     for t in typemap:
@@ -76,7 +76,7 @@ def report(rep):
         print(fmtp % (shorten(t, 46), rep.TYPEMAP[t], rep.TYPESIZE[t],
                       pct, rep.TYPESIZE[t] * 1.0 / rep.TYPEMAP[t]))
 
-    print(fmt % ('='*46, '='*7, '='*9, '='*5, '='*7))
+    print(fmt % ('=' * 46, '=' * 7, '=' * 9, '=' * 5, '=' * 7))
     print("%46s %7d %9s %6s %6.2fk" % (
         'Total Transactions', rep.TIDS, ' ', ' ',
         rep.DBYTES * 1.0 / rep.TIDS / 1024.0))
@@ -111,11 +111,11 @@ def get_type(record):
     try:
         unpickled = FakeUnpickler(BytesIO(record.data)).load()
     except FakeError as err:
-        return "{}.{}".format(err.module, err.name)
+        return f"{err.module}.{err.name}"
     classinfo = unpickled[0]
     if isinstance(classinfo, tuple):
         mod, klass = classinfo
-        return "{}.{}".format(mod, klass)
+        return f"{mod}.{klass}"
     else:
         return str(classinfo)
 

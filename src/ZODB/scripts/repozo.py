@@ -578,7 +578,7 @@ def do_incremental_backup(options, reposz, repofiles):
                               gen_filename(options, '.index', tnow))
     fs._index.save(pos, index_file)
     fs.close()
-    log('writing incremental: %s bytes to %s',  pos-reposz, dest)
+    log('writing incremental: %s bytes to %s', pos - reposz, dest)
     sum = copyfile(options, dest, reposz, pos - reposz)
     # The first file in repofiles points to the last full backup.  Use this to
     # get the .dat file and append the information for this incrementatl to
@@ -617,7 +617,7 @@ def do_backup(options):
         # incremental's start and stop positions.
         srcfp = open(options.file, 'rb')
         srcfp.seek(startpos)
-        srcsum = checksum(srcfp, endpos-startpos)
+        srcsum = checksum(srcfp, endpos - startpos)
         srcfp.close()
         log('last incremental file: %s', fn)
         log('last incremental checksum: %s', sum)
@@ -788,8 +788,8 @@ def do_verify(options):
             elif not options.quick:
                 if actual_sum != sum:
                     raise VerificationFail(
-                        "%s has checksum %s%s instead of %s" % (
-                            filename, actual_sum, when_uncompressed, sum))
+                        f"{filename} has checksum {actual_sum}"
+                        f"{when_uncompressed} instead of {sum}")
 
 
 def get_checksum_and_size_of_gzipped_file(filename, quick):

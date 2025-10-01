@@ -83,7 +83,7 @@ def resetCaches():
 
 def className(obj):
     cls = type(obj)
-    return "{}.{}".format(cls.__module__, cls.__name__)
+    return f"{cls.__module__}.{cls.__name__}"
 
 
 @implementer(IConnection,
@@ -712,7 +712,7 @@ class Connection(ExportImport):
 
     def sortKey(self):
         """Return a consistent sort key for this connection."""
-        return "{}:{}".format(self._storage.sortKey(), id(self))
+        return f"{self._storage.sortKey()}:{id(self)}"
 
     # Data manager (ISavepointDataManager) methods
     ##########################################################################

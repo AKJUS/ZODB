@@ -1,13 +1,16 @@
-
-import sys, time, os, random
+import os
+import random
+import sys
+import time
 
 import transaction
+from BTrees import OOBTree
 from persistent import Persistent
-
 from ZEO import ClientStorage
+
 import ZODB
 from ZODB.POSException import ConflictError
-from BTrees import OOBTree
+
 
 class ChatSession(Persistent):
 
@@ -32,7 +35,6 @@ class ChatSession(Persistent):
         # Internal attribute: _messages holds all the chat messages.
         self._messages = OOBTree.OOBTree()
 
-
     def new_messages(self):
         "Return new messages."
 
@@ -46,7 +48,7 @@ class ChatSession(Persistent):
 
         for T2, message in self._messages.items():
             if T2 > T:
-                new.append( message )
+                new.append(message)
                 self._v_last_time = T2
 
         return new
@@ -59,7 +61,7 @@ class ChatSession(Persistent):
         while 1:
             try:
                 now = time.time()
-                self._messages[ now ] = message
+                self._messages[now] = message
                 transaction.commit()
             except ConflictError:
                 # Conflict occurred; this process should abort,
@@ -72,6 +74,7 @@ class ChatSession(Persistent):
                 break
         # end while
 
+
 def get_chat_session(conn, channelname):
     """Return the chat session for a given channel, creating the session
     if required."""
@@ -81,7 +84,7 @@ def get_chat_session(conn, channelname):
     # the key 'chat_sessions'.
     root = conn.root()
     if not root.has_key('chat_sessions'):
-        print 'Creating chat_sessions B-tree'
+        print('Creating chat_sessions B-tree')
         root['chat_sessions'] = OOBTree.OOBTree()
         transaction.commit()
 
@@ -89,22 +92,22 @@ def get_chat_session(conn, channelname):
 
     # Get a session object corresponding to the channel name, creating
     # it if necessary.
-    if not sessions.has_key( channelname ):
-        print 'Creating new session:', channelname
-        sessions[ channelname ] = ChatSession(channelname)
+    if not sessions.has_key(channelname):
+        print('Creating new session:', channelname)
+        sessions[channelname] = ChatSession(channelname)
         transaction.commit()
 
-    session = sessions[ channelname ]
+    session = sessions[channelname]
     return session
 
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print 'Usage: %s <channelname>' % sys.argv[0]
+        print('Usage: %s <channelname>' % sys.argv[0])
         sys.exit(0)
 
-    storage = ClientStorage.ClientStorage( ('localhost', 9672) )
-    db = ZODB.DB( storage )
+    storage = ClientStorage.ClientStorage(('localhost', 9672))
+    db = ZODB.DB(storage)
     conn = db.open()
 
     s = session = get_chat_session(conn, sys.argv[1])
@@ -114,12 +117,12 @@ if __name__ == '__main__':
     while 1:
         # Send a random message
         msg = random.choice(messages)
-        session.add_message( '%s: pid %i' % (msg,os.getpid() ))
+        session.add_message('%s: pid %i' % (msg, os.getpid()))
 
         # Display new messages
         for msg in session.new_messages():
-            print msg
+            print(msg)
 
         # Wait for a few seconds
-        pause = random.randint( 1, 4 )
-        time.sleep( pause )
+        pause = random.randint(1, 4)
+        time.sleep(pause)

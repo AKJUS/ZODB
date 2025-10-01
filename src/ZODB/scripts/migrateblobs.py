@@ -50,7 +50,7 @@ def migrate(source, dest, layout):
             source_file = os.path.join(path, file)
             dest_file = os.path.join(dest_path, file)
             link_or_copy(source_file, dest_file)
-        print("\tOID: {} - {} files ".format(oid_repr(oid), len(files)))
+        print(f"\tOID: {oid_repr(oid)} - {len(files)} files ")
 
 
 def main(source=None, dest=None, layout="bushy"):

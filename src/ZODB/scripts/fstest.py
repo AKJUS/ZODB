@@ -118,7 +118,7 @@ def check_trec(path, file, pos, ltid, file_size):
     if not h:
         return None, None
     if len(h) != TREC_HDR_LEN:
-        raise FormatError("{} truncated at {}".format(path, pos))
+        raise FormatError(f"{path} truncated at {pos}")
 
     tid, stl, status, ul, dl, el = struct.unpack(">8s8scHHH", h)
     tmeta_len = TREC_HDR_LEN + ul + dl + el
@@ -176,7 +176,7 @@ def check_drec(path, file, pos, tpos, tid):
 
     h = file.read(DREC_HDR_LEN)
     if len(h) != DREC_HDR_LEN:
-        raise FormatError("{} truncated at {}".format(path, pos))
+        raise FormatError(f"{path} truncated at {pos}")
     oid, serial, _prev, _tloc, vlen, _plen = (
         struct.unpack(">8s8s8s8sH8s", h))
     U64(_prev)

@@ -226,18 +226,18 @@ class IteratorDeepCompare:
         iter1 = storage1.iterator()
         iter2 = storage2.iterator()
         for txn1, txn2 in zip(iter1, iter2):
-            eq(txn1.tid,         txn2.tid)
-            eq(txn1.status,      txn2.status)
-            eq(txn1.user,        txn2.user)
+            eq(txn1.tid, txn2.tid)
+            eq(txn1.status, txn2.status)
+            eq(txn1.user, txn2.user)
             eq(txn1.description, txn2.description)
-            eq(txn1.extension,  txn2.extension)
+            eq(txn1.extension, txn2.extension)
             eq(txn1.extension_bytes, txn2.extension_bytes)
             itxn1 = iter(txn1)
             itxn2 = iter(txn2)
             for rec1, rec2 in zip(itxn1, itxn2):
-                eq(rec1.oid,     rec2.oid)
-                eq(rec1.tid,  rec2.tid)
-                eq(rec1.data,    rec2.data)
+                eq(rec1.oid, rec2.oid)
+                eq(rec1.tid, rec2.tid)
+                eq(rec1.data, rec2.data)
                 if ZODB.blob.is_blob_record(rec1.data):
                     try:
                         fn1 = storage1.loadBlob(rec1.oid, rec1.tid)
@@ -247,7 +247,7 @@ class IteratorDeepCompare:
                             storage2.loadBlob, rec1.oid, rec1.tid)
                     else:
                         fn2 = storage2.loadBlob(rec1.oid, rec1.tid)
-                        self.assertTrue(fn1 != fn2)
+                        self.assertNotEqual(fn1, fn2)
                         with open(fn1, 'rb') as fp1:
                             with open(fn2, 'rb') as fp2:
                                 eq(fp1.read(), fp2.read())

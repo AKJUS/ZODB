@@ -117,21 +117,22 @@ def main(args):
                 setattr(p, str(i), v)
             transaction.commit()
             jar.close()
-            t = time.time()-t
+            t = time.time() - t
             if detailed:
-                sys.stderr.write("{}\t{}\t{:.4f}\n".format(j, r, t))
+                sys.stderr.write(f"{j}\t{r}\t{t:.4f}\n")
                 sys.stdout.flush()
-            results[r] = results[r]+t
+            results[r] = results[r] + t
             rt = d = p = v = None  # release all references
             if minimize:
                 time.sleep(3)
                 jar.cacheMinimize(3)
 
     if detailed:
-        print('-'*24)
+        print('-' * 24)
     for r in 1, 10, 100, 1000:
-        t = results[r]/nrep
-        sys.stderr.write("mean:\t{}\t{:.4f}\t{:.4f} (s/o)\n".format(r, t, t/r))
+        t = results[r] / nrep
+        sys.stderr.write(
+            f"mean:\t{r}\t{t:.4f}\t{t / r:.4f} (s/o)\n")
 
     db.close()
 
@@ -139,7 +140,7 @@ def main(args):
 def compress(s):
     c = zlib.compressobj()
     o = c.compress(s)
-    return o+c.flush()
+    return o + c.flush()
 
 
 if __name__ == '__main__':
